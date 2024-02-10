@@ -4,89 +4,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay Safe</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-    <link rel="stylesheet" href="style.css">
+    <title>Stay-safe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW0JvSB9UHidmU81bxU36qnsSk6KuTYck&loading=async&callback=initMap">
+    </script>
+
+    <link rel="stylesheet" href="style.css">
 
 
-
+    <!-- Your custom JavaScript -->
 
 </head>
 
 <body>
-
     <div id="report-success" class="hidden">
         <p> Report <br> Successful!</p>
     </div>
+    <aside class="mdc-snackbar" style="align-self: center">
+        <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+            <div class="mdc-snackbar__label" aria-atomic="false">
+                Can't send photo. Retry in 5 seconds.
+            </div>
+            <div class="mdc-snackbar__actions" aria-atomic="true">
+                <button type="button" class="mdc-button mdc-snackbar__action">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Retry</span>
+                </button>
+            </div>
+        </div>
+    </aside>
 
-    <header>
-        <button id="search">
-            <img src="images/mag-glass.png" alt="Search"><br> Search
+    <!-- Top Half -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">
+            <img src="images/logo.png" width="40" height="40" class="d-inline-block align-top logo" alt="Your Logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon menu-button"></span>
         </button>
-        <img src="images/logo.png" id="logo" alt="Logo">
-        <button id="settings">
-            <img src="images/settings.png" alt="Settings"> <br> Settings
-            <!-- Add a new item for Bookmarks in the dropdown -->
-            <div class="dropdown-content" id="settingsDropdown">
-                <a href="#">Account</a>
-                <a href="#">Privacy</a>
-                <a href="#" id="bookmarksBtn">Bookmarks</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Settings
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" id="bookmarksBtn">Bookmark</a>
+                        <a class="dropdown-item map_tab">Search</a>
+                        <a class="dropdown-item" href="#">Resources</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="searchSection">
+
+        <div class="container pt-3 pb-3">
+            <div class="row">
+                <div class="col">
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Search" id="searchText">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary" id="search-button">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="lowerHalf">
+        <!-- Middle Section -->
+        <!-- Lower Section -->
+        <div class="container mt-3 report">
+            <div class="info text-center">
+                <h1 class = "font1 report-title">Recent Activity</h1>
+                <p class = "font2">Crime reported near "Home" 27 min ago.</p>
+                <p class = "font2">Crime reported near "Work" 1 day ago.</p>
+                <p class = "font2">You have officially been a Stay Safe member for 30 days!</p>
+            </div><br>
+            <div class="text-center pt-3">
+                <button type="button" class="btn btn-danger font1" id="reportButton">Report</button>
+            </div>
+        </div>
+
+        <!-- Bottom Section -->
+
+        <div class="container mt-3 text-center hotline">
+            <div class="row">
+                <div class="col">
+                    <h2 class = "font1 hotline-title">Hotline Numbers</h2>
+                    <p class = "font2">Emergency: 911</p>
+                    <p class = "font2">Non-Emergency: 311</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report section -->
+
+    <div id="reportForm" class="hidden text-center">
+        <form>
+            <h1 class="text-center font1 report-title">Report Crime</h1>
+
+            <div class="form-group">
+                <label class="font-weight-bold">Use Current Location?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="location-option" id="use-location-yes"
+                        value="Yes">
+                    <label class="form-check-label" for="use-location-yes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="location-option" id="use-location-no" value="No">
+                    <label class="form-check-label" for="use-location-no">No</label>
+                </div>
             </div>
 
-        </button>
-    </header>
-
-
-
-    <main>
-
-        <aside class="mdc-snackbar" style="align-self: center">
-            <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
-                <div class="mdc-snackbar__label" aria-atomic="false">
-                    Can't send photo. Retry in 5 seconds.
-                </div>
-                <div class="mdc-snackbar__actions" aria-atomic="true">
-                    <button type="button" class="mdc-button mdc-snackbar__action">
-                        <div class="mdc-button__ripple"></div>
-                        <span class="mdc-button__label">Retry</span>
-                    </button>
-                </div>
-            </div>
-        </aside>
-        <!-- form data -->
-        <form class="hidden form">
-            <h1 class="child-element">Report Crime</h1>
-
-
-            <h3 class="child-element">Use Current Location?</h3>
-            <div id="ct-location" class="child-element">
-                <div class="location-buttons child-element">
-                    <label>
-                        <input type="radio" name="location-option" value="Yes">
-                        Yes
-                    </label>
-
-                    <label>
-                        <input type="radio" name="location-option" value="No">
-                        No
-                    </label>
-                </div>
-
-            </div>
-
-            <div id="ct-location" class="child-element">
+            <div class="form-group">
                 <label for="location">Location:</label>
-                <textarea id="location" placeholder="Enter location: 123 Main St, City, State, Country"></textarea>
+                <textarea class="form-control" id="location"
+                    placeholder="Enter location: 123 Main St, City, State, Country"></textarea>
             </div>
 
-            <div id="ct-category" class="child-element">
+            <div class="form-group">
                 <label for="category">Category:</label>
-                <select id="category">
+                <select class="form-control" id="category">
                     <option>Select category</option>
                     <option>Assault</option>
                     <option>Robbery</option>
@@ -95,586 +158,509 @@
                 </select>
             </div>
 
-            <div id="ct-details" class="child-element">
+            <div class="form-group">
                 <label for="details">Details:</label>
-
-                <textarea id="details" placeholder="Enter details"></textarea>
+                <textarea class="form-control" id="details" placeholder="Enter details"></textarea>
             </div>
 
-            <!-- Time -->
-            <div id="ct-time" class="child-element">
-                <label for="hour">Time:</label>
-                <select id="hour" name="hour">
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                </select>
-
-                <select id="minute" name="minute">
-                    <option value="00">00</option>
-                    <option value="15">15</option>
-                    <option value="30">30</option>
-                    <option value="45">45</option>
-                </select>
-
-                <select id="amPm" name="amPm">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                </select>
-            </div>
-
-
-            <input type="button" class="submit child-element" value="Send Report">
-
-
-
-        </form>
-
-        <!-- Default data -->
-        <div class="info">
-            <h1>Recent Activity</h1>
-
-            <p>Crime reported near "Home" 27 min ago.</p>
-
-            <p>Crime reported near "Work" 1 day ago.</p>
-
-            <p>You have officially been a Stay Safe member for 30 days!</p>
-        </div>
-
-        <!-- Map data -->
-        <div class="hidden map-ct">
-            <div id="map-view">
-
-                <div id="map-search">
-                    <input type="text" placeholder="Search location">
-                    <button>Find Address</button>
-                    <div id="map-legend">
-                        <div class="icon-container">
-                            <div class="icon">
-                                <img src="https://leafletjs.com/examples/custom-icons/leaf-green.png"
-                                    alt="Green leaf image">
-                                <p style="color: black">Confirmed</p>
-                            </div>
-                            <div class="icon">
-                                <img src="https://leafletjs.com/examples/custom-icons/leaf-red.png"
-                                    alt="Red leaf image">
-                                <p style="color: black">Uncorfirmed</p>
-                            </div>
-                            <div class="icon">
-                                <img src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png"
-                                    alt="Marker image">
-                                <p style="color: black">Current Location</p>
-                            </div>
-                        </div>
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <div class="row">
+                    <div class="col">
+                        <select class="form-control" id="hour">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-control" id="minute">
+                            <option value="00">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-control" id="amPm">
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
                     </div>
                 </div>
-
-
-
-                <div id="map"></div>
-
-
             </div>
+
+            <button type="button" class="btn btn-primary btn-block submit-1">Send Report</button>
+        </form>
+    </div>
+    <!-- Bookmark section -->
+    <form class="hidden bookmark text-center">
+        <h1 class="display-4 bookmark-title font1">Bookmark</h1>
+
+        <div class="form-group">
+            <label for="bm-name" class = "font2">Name:</label>
+            <textarea class="form-control" id="bm-name" placeholder="Enter name"></textarea>
         </div>
 
-        <form class="hidden bookmark">
-            <h1>Add Bookmark</h1>
+        <div class="form-group">
+            <label for="bm-location" class = "font2">Location:</label>
+            <textarea class="form-control" id="bm-location" placeholder="Enter location"></textarea>
+        </div>
 
-            <div id="bk-name">
-                <label for="bm-name">Name:</label>
-                <textarea id="bm-name" placeholder="Enter name"></textarea>
-            </div>
+        <button type="button" class="btn btn-primary r_submit">Add Bookmark</button>
+    </form>
 
-            <div id="bk-location">
-                <label for="bm-location">Location:</label>
-                <textarea id="bm-location" placeholder="Enter location"></textarea>
-            </div>
+    <!-- Map -->
+    <!-- Google Maps Container -->
+    <div class="container mt-4 hidden map_container">
+        <div id="map"></div>
 
-            <input type="button" class="submit" value="Add Bookmark">
-        </form>
+    </div>
 
-    </main>
+    <div id="legend" class="legend hidden">
+        <div class="legend-item">
+            <img class="legend-color" src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">
+            CurrentPosition
+        </div>
+        <div class="legend-item">
+            <img class="legend-color" src="https://maps.google.com/mapfiles/kml/shapes/caution.png">
+            Confirmed
+        </div>
+        <div class="legend-item">
+            <img class="legend-color" src="https://maps.google.com/mapfiles/kml/paddle/ylw-blank.png">
+            UnConfirmed
+        </div>
+    </div>
 
-    <footer>
-        <button class="footer-button" id="home">
-            <img src="images/home.png" alt="Home"> <br>HOME
-        </button>
-        <button class="footer-button" id="report">
-            <img src="images/report.png" alt="Report"> <br>REPORT
+    <script>
+        const reportButton = document.getElementById('reportButton');
+        const reportForm = document.getElementById('reportForm');
+        const lowerHalf = document.getElementById('lowerHalf');
+        const reportBtn = document.getElementById('report');
+        const searchButton = document.getElementById('search-button')
+        const map_container = document.querySelector('.map_container');
+        const map_tab = document.querySelector('.map_tab');
+        const legend = document.querySelector('.legend');
+        const searchSection = document.querySelector('.searchSection');
+        let search_t = document.getElementById('searchText');
+        var blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+        var redIcon = 'https://maps.google.com/mapfiles/kml/shapes/caution.png';
+        var yellowIcon = 'https://maps.google.com/mapfiles/kml/paddle/ylw-blank.png';
 
-        </button>
-    </footer>
+        function validateForm() {
+            // const location = document.getElementById('location').value;
+            const category = document.getElementById('category').value;
+            const details = document.getElementById('details').value;
+            const radioButtons = document.getElementsByName('location-option');
+            let yes = 0;
+            // Loop through the radio buttons to check if one of them is selected
+            for (const radioButton of radioButtons) {
+                if (radioButton.checked) {
+                    if (radioButton.value == "Yes") {
+                        // The selected radio button is found
+                        yes = 5;
 
+                    }
 
-</body>
-
-<script>
-    // Get main elements
-    const main = document.querySelector('main');
-    const form = document.querySelector('form')
-    const info = document.querySelector('.info');
-    const reportBtn = document.getElementById('report');
-    const footer = document.querySelector("footer");
-    const header = document.querySelector("header");
-    const search = document.querySelector("#search");
-    const mapView = document.querySelector(".map-ct");
-    const home = document.querySelector("#home");
-    const bookmarksBtn = document.getElementById('bookmarksBtn');
-    const bookmarksForm = document.querySelector('.bookmark');
-    const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
-
-
-    function getcoords(address) {
-        //const address = "123 Main St, City, State, Country";
-        const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
-
-        fetch(nominatimUrl)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const latitude = data[0].lat;
-                    const longitude = data[0].lon;
-                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-
-                    return [latitude, longitude];
-                } else {
-                    console.log('Error: Unable to retrieve coordinates for the address.');
-                    return undefined;
                 }
+            }
+
+            if (category === 'Select category' || details.trim() === '') {
+                return true;
+                // You can also show an alert or perform other actions to notify the user.
+                // } else {
+                return false;
+            }
+        }
+        reportButton.addEventListener('click', () => {
+            let category = document.querySelector("#category").value = `Select category`
+            let detail = document.querySelector("#details").value = "";
+            let location = document.querySelector("#location").value = "";
+            document.querySelector("#location").disabled = false;
+
+            let minute = document.querySelector("#minute").value = ``
+            let amPm = document.querySelector("#amPm").value = ''
+            let hour = document.querySelector("#hour").value = ''
+            const radioButtons = document.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(button => {
+                button.checked = false;
+            });
+            reportForm.classList.remove('hidden');
+            lowerHalf.classList.add('hidden');
+            bookmarksForm.classList.add("hidden");
+            searchSection.classList.add('hidden');
+
+
+        });
+
+        let radioButto = document.getElementsByName('location-option');
+
+        // Loop through the radio buttons to check if one of them is selected
+        for (const radioButton of radioButto) {
+
+            radioButton.addEventListener('click', e => {
+                if (radioButton.checked) {
+                    if (radioButton.value == "Yes") {
+                        // The selected radio button is found
+                        console.log(radioButton.checked)
+                        console.log(`Selected option: ${radioButton.value}`);
+                        document.querySelector("#location").disabled = true;
+                    } else {
+                        document.querySelector("#location").disabled = false;
+
+                    }
+
+                }
+
             })
-            .catch(error => {
-                console.log('Error:', error);
-            });
-    }
-
-    function validateForm() {
-        // const location = document.getElementById('location').value;
-        const category = document.getElementById('category').value;
-        const details = document.getElementById('details').value;
-        const radioButtons = document.getElementsByName('location-option');
-        let yes = 0;
-        // Loop through the radio buttons to check if one of them is selected
-        for (const radioButton of radioButtons) {
-            if (radioButton.checked) {
-                if (radioButton.value == "Yes") {
-                    // The selected radio button is found
-                    yes = 5;
-
-                }
-
-            }
         }
 
-        if (category === 'Select category' || details.trim() === '') {
-            return true;
-            // You can also show an alert or perform other actions to notify the user.
-        } else {
-            return false;
-        }
-    }
-    // Add click event listener
-    reportBtn.addEventListener('click', () => {
-        // Change inner HTML of main
-        let category = document.querySelector("#category").value = `Select category`
-        let detail = document.querySelector("#details").value = "";
-        let location = document.querySelector("#location").value = "";
-        document.querySelector("#location").disabled = false;
 
-        let minute = document.querySelector("#minute").value = ``
-        let amPm = document.querySelector("#amPm").value = ''
-        let hour = document.querySelector("#hour").value = ''
-        const radioButtons = document.querySelectorAll('input[type="radio"]');
-        radioButtons.forEach(button => {
-            button.checked = false;
-        });
-        form.classList.remove('hidden');;
-        info.classList.add('hidden');
-        mapView.classList.add('hidden');
-        footer.classList.remove('hidden')
-        header.classList.remove('hidden');
-        bookmarksForm.classList.add('hidden');
+        const submitBtn = document.querySelector('.submit-1');
+        const confirmation = document.getElementById('report-success');
+        const searchText = document.querySelector('searchText');
+        const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
+        const bookmarksBtn = document.getElementById('bookmarksBtn');
+        const bookmarksForm = document.querySelector('.bookmark');
+        const logo = document.querySelector(".logo");
 
-
-
-        // Function to check if the user scrolled to the bottom
-
-
-    });
-
-
-    const submitBtn = document.querySelector('.submit');
-    const confirmation = document.getElementById('report-success');
-
-    submitBtn.addEventListener('click', (e) => {
-
-        if (validateForm()) {
-            snackbar.labelText = "Report Incomplete";
-            snackbar.open();
-        } else {
-            form.classList.add('hidden');;
-            info.classList.remove('hidden');
-
-
-            setTimeout(function () {
-                // Your code to execute after a 500ms delay
-                confirmation.classList.remove('hidden');
-                setTimeout(function () {
-                    // Your code to execute after a 500ms delay
-                    confirmation.classList.add('hidden');
-                }, 3000);
-            }, 300);
-        }
-    });
-
-    let map;
-    let redd
-
-    function addMarker() {
-        let category = document.querySelector("#category").value;
-        let hour = document.querySelector("#hour").value;
-        let minute = document.querySelector("#minute").value;
-        let amPm = document.querySelector("#amPm").value;
-        let detail = document.querySelector("#details").value;
-        // Get current position
-        navigator.geolocation.getCurrentPosition(function (position) {
-
-            // Create marker
-            const redIcon = L.icon({
-                iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34]
-            });
-
-            map.setView([position.coords.latitude, position.coords.longitude]);
-
-            const marker = L.marker([position.coords.latitude, position.coords.longitude], {
-                icon: redIcon
-            }).addTo(map);
-
-            // Add popup
-            const popup = L.popup({
-                className: 'custom-popup'
-            });
-
-            marker.on('click', function (e) {
-                popup
-                    .setLatLng(e.latlng)
-                    .setContent(`
-        <h5>Report Info</h5>
-        <h6>Status: Unconfirmed</h6>
-       
-        <p class = "text">  Type: ${category} <br> ${detail}<br> Time: ${hour}: ${minute} ${amPm}<br></p>
-      `)
-                    .openOn(map);
-            });
-
-        });
-
-    }
-
-    function addMarker_2(lat, lon) {
-        let category = document.querySelector("#category").value;
-        let hour = document.querySelector("#hour").value;
-        let minute = document.querySelector("#minute").value;
-        let amPm = document.querySelector("#amPm").value;
-        let detail = document.querySelector("#details").value;
-        // Get current position
-
-        // Create marker
-        const redIcon = L.icon({
-            iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34]
-        });
-
-        map.setView([lat, lon]);
-
-        const marker = L.marker([lat, lon], {
-            icon: redIcon
-        }).addTo(map);
-
-        // Add popup
-        const popup = L.popup({
-            className: 'custom-popup'
-        });
-
-        marker.on('click', function (e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent(`
-        <h5>Report Info</h5>
-        <h6>Status: Unconfirmed</h6>
-       
-        <p class = "text">  Type: ${category} <br> ${detail}<br> Time: ${hour}: ${minute} ${amPm}<br></p>
-      `)
-                .openOn(map);
-        });
-
-
-
-    }
-
-
-    let count = 1;
-    let green;
-    let red;
-    // Get the bookmarks button and bookmark form
-
-
-    // Initialize the map
-    function initMap() {
-        if (count != 5) {
-            // Create map
-            map = L.map('map').setView([41.878, -87.6298],
-                13); // Set your initial map coordinates and zoom level.
-            map.on('load', () => {
-                map.setView([41.878, -87.6298],
-                    18); // Adjust the zoom level (15 in this case) to your preference.
-            });
-            // Tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
-            }).addTo(map);
-
-            // User marker
-            const userMarker = L.marker([41.878, -87.6298]).addTo(map);
-
-            // Report markers
-            const greenIcon = L.icon({
-                iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-            });
-
-            // Create red icon
-            const redIcon = L.icon({
-                iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34]
-            });
-
-            // Add markers
-            green = L.marker([41.888, -87.6298], {
-                icon: greenIcon
-            }).addTo(map);
-            red = L.marker([41.868, -87.6298], {
-                icon: redIcon
-            }).addTo(map);
-        }
-
-        // Info window on marker click
-        green.on('click', e => {
-            const popup = L.popup({
-                className: 'custom-popup'
-            }).setContent(`
-            <h5>Report Info</h5>
-            <h6>Status: Confirmed</h6> 
-            <h5>Individual caught with a firearm</h5>
-        `);
-
-            popup.setLatLng(e.latlng).openOn(map);
-        });
-
-        red.on('click', e => {
-            const popup = L.popup({
-                className: 'custom-popup'
-            }).setContent(`
-            <h5>Report Info</h5>
-            <h6>Status: UnConfirmed</h6> 
-            <h5>Individual caught trespassing</h5>
-        `);
-
-            popup.setLatLng(e.latlng).openOn(map);
-        });
-
-
-
-
-        const radioButtons = document.getElementsByName('location-option');
-
-        // Loop through the radio buttons to check if one of them is selected
-        for (const radioButton of radioButtons) {
-            if (radioButton.checked) {
-                if (radioButton.value == "Yes") {
-                    // The selected radio button is found
-                    console.log(radioButton.checked)
-                    console.log(`Selected option: ${radioButton.value}`);
-
-                    addMarker();
-                } else if (radioButton.value == "No") {
-                    // const address = "123 Main St, City, State, Country";
-                    let location = document.querySelector("#location").value;
-                    const nominatimUrl =
-                        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`;
-
-                    fetch(nominatimUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.length > 0) {
-                                const latitude = data[0].lat;
-                                const longitude = data[0].lon;
-                                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                                addMarker_2(latitude, longitude)
-                            } else {
-                                console.log('Error: Unable to retrieve coordinates for the address.');
-
-                            }
-                        })
-                        .catch(error => {
-                            console.log('Error:', error);
-                        });
-
-                }
-
-            }
-        }
-
-        count = 5;
-
-
-    }
-
-    let radioButto = document.getElementsByName('location-option');
-
-    // Loop through the radio buttons to check if one of them is selected
-    for (const radioButton of radioButto) {
-
-        radioButton.addEventListener('click', e => {
-            if (radioButton.checked) {
-                if (radioButton.value == "Yes") {
-                    // The selected radio button is found
-                    console.log(radioButton.checked)
-                    console.log(`Selected option: ${radioButton.value}`);
-                    document.querySelector("#location").disabled = true;
-                } else {
-                    document.querySelector("#location").disabled = false;
-
-                }
-
-            }
+        logo.addEventListener('click', () => {
+            lowerHalf.classList.remove("hidden");
+            bookmarksForm.classList.add("hidden");
+            map_container.classList.add('hidden');
+            legend.classList.add('hidden');
+            reportForm.classList.add('hidden');
+            searchSection.classList.remove('hidden');
 
         })
-    }
+
+        bookmarksBtn.addEventListener('click', () => {
+            // Hide other sections and show the bookmark form
+            lowerHalf.classList.add("hidden");
+            bookmarksForm.classList.remove("hidden");
+            map_container.classList.add('hidden');
+            legend.classList.add('hidden');
+            reportForm.classList.add('hidden');
+            searchSection.classList.add('hidden');
 
 
 
-    // Add an event listener for a button with the ID "search"
-    search.addEventListener('click', () => {
-        // Hide footer and info elements
-        header.classList.add('hidden');
-        info.classList.add('hidden');
-        form.classList.add('hidden');
-        bookmarksForm.classList.add('hidden');
-
-        // Show the map view
-        mapView.classList.remove('hidden');
-
-        // Initialize the map
-        initMap();
-    });
-
-    home.addEventListener('click', () => {
-        header.classList.remove('hidden');
-        info.classList.remove('hidden');
-        form.classList.add('hidden');
-        footer.classList.remove('hidden');
-        mapView.classList.add('hidden');
-        bookmarksForm.classList.add('hidden');
-
-        // Show the map view
-        mapView.classList.add('hidden');
-    })
-
-    // Get the settings button and dropdown content
-    const settingsBtn = document.getElementById('settings');
-    const settingsDropdown = document.getElementById('settingsDropdown');
-    const dropdownOptions = document.querySelectorAll('.dropdown-option');
-
-    // Add click event listener to the document to close the dropdown when clicking outside of it
-    document.addEventListener('click', function (e) {
-        if (!settingsBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
-            settingsDropdown.classList.add('hidden');
-        }
-    });
-
-
-
-    // Toggle the dropdown when clicking the settings button
-    settingsBtn.addEventListener('click', function () {
-        if (settingsDropdown.style.display === 'block') {
-            settingsDropdown.classList.add('hidden');
-        } else {
-            settingsDropdown.classList.remove('hidden');
-        }
-    });
-
-    // Handle clicks on dropdown options
-    dropdownOptions.forEach(function (option) {
-        option.addEventListener('click', function (e) {
-            // You can add logic here to handle clicks on specific options
-            // For now, we'll just log the clicked option to the console
-            console.log('Clicked on:', e.target.innerText);
-
-            // Close the dropdown
-            settingsDropdown.classList.add('hidden');
+            document.getElementById('bm-name').value = '';
+            document.getElementById('bm-location').value = '';
         });
-    });
+        const addBookmarkBtn = document.querySelector('.bookmark .r_submit');
+
+        addBookmarkBtn.addEventListener('click', () => {
+            // Your code to handle bookmark submission (similar to the previous example)
+            const bookmarkName = document.getElementById('bm-name').value;
+            const bookmarkLocation = document.getElementById('bm-location').value;
+
+            // Validate that both name and location are provided
+            if (bookmarkName && bookmarkLocation) {
+                // Display the bookmark information in the main home screen under recent activity
+                const recentActivity = document.querySelector('.info');
+                const bookmarkInfo = document.createElement('p');
+                bookmarkInfo.textContent = `New Bookmark: ${bookmarkName} - ${bookmarkLocation}`;
+                recentActivity.appendChild(bookmarkInfo);
+
+                // Hide the bookmarks form
+                bookmarksForm.classList.add('hidden');
+                // Show the main home screen
+                reportForm.classList.add('hidden');
+                lowerHalf.classList.remove('hidden');
+                bookmarksForm.classList.add("hidden");
+                map_container.classList.add('hidden');
+                legend.classList.add('hidden');
+                searchSection.classList.add('hidden');
+
+
+            } else {
+                snackbar.labelText = "Incomplete";
+                snackbar.open();
+            }
+        });
+        var blueIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+        var redIcon = 'https://maps.google.com/mapfiles/kml/shapes/caution.png';
+        // Initialize Google Map
+        var map;
+
+        let i = 0;
+
+        function initMap() {
+            // Get user's geolocation
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                // Center the map on the user's location
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: userLocation,
+                    zoom: 15
+                });
+
+                // Create a marker for the user's location
+                var marker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    icon: blueIcon,
+                    title: 'Your Location'
+                });
 
 
 
-    // Add click event listener to the Bookmarks button
-    bookmarksBtn.addEventListener('click', () => {
-        // Hide other sections and show the bookmark form
-        settingsDropdown.classList.add('hidden');
-        form.classList.add('hidden');
-        info.classList.add('hidden');
-        mapView.classList.add('hidden');
-        bookmarksForm.classList.remove('hidden');
-        document.getElementById('bm-name').value = '';
-        document.getElementById('bm-location').value = '';
+                // Show legend on map hover
+                var legend = document.querySelector('.legend');
+                map.addListener('mouseover', function () {
+                    legend.style.opacity = '1';
+                });
+                map.addListener('mouseout', function () {
+                    legend.style.opacity = '0';
+                });
 
+                // Show legend on map touchstart
+                map.addListener('touchstart', function () {
+                    legend.style.opacity = '1';
+                });
 
-    });
+                // Hide legend on map touchend
+                map.addListener('touchend', function () {
+                    legend.style.opacity = '0';
+                });
 
+            }, function (error) {
+                console.log('Error getting user location:', error);
+            });
 
-    // Add click event listener to the "Add Bookmark" button in the bookmark form
-   
-    const addBookmarkBtn = document.querySelector('.bookmark .submit');
-    
-    addBookmarkBtn.addEventListener('click', () => {
-        // Your code to handle bookmark submission (similar to the previous example)
-        const bookmarkName = document.getElementById('bm-name').value;
-        const bookmarkLocation = document.getElementById('bm-location').value;
-
-        // Validate that both name and location are provided
-        if (bookmarkName && bookmarkLocation) {
-            // Display the bookmark information in the main home screen under recent activity
-            const recentActivity = document.querySelector('.info');
-            const bookmarkInfo = document.createElement('p');
-            bookmarkInfo.textContent = `New Bookmark: ${bookmarkName} - ${bookmarkLocation}`;
-            recentActivity.appendChild(bookmarkInfo);
-
-            // Hide the bookmarks form
-            bookmarksForm.classList.add('hidden');
-            // Show the main home screen
-            info.classList.remove('hidden');
-        } else {
-            // Display an error message or handle the case where the user didn't provide both name and location
+            i = 5;
         }
-    });
-</script>
+
+
+
+        function newMarker() {
+            if (i == 5) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var currentLocationMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        icon: {
+                            url: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png', // Marker icon
+                            scaledSize: new google.maps.Size(20, 20) // Marker size
+                        },
+                        title: 'Your Location'
+                    });
+
+                    let category = document.querySelector("#category").value;
+                    let hour = document.querySelector("#hour").value;
+                    let minute = document.querySelector("#minute").value;
+                    let amPm = document.querySelector("#amPm").value;
+                    let detail = document.querySelector("#details").value;
+                    currentLocationMarker.addListener('click', function () {
+                        // Get and display report info in an info window
+                        var reportInfo =
+                            ` <h5>Report Info</h5>
+        <h6>Status: Unconfirmed</h6>
+       
+        <p class = "text">  Type: ${category} <br> ${detail}<br> Time: ${hour}: ${minute} ${amPm}<br></p>`; // Replace with actual report info
+                        var infoWindow = new google.maps.InfoWindow({
+                            content: reportInfo
+                        });
+                        infoWindow.open(map, currentLocationMarker);
+                    });
+                })
+            }
+
+        }
+
+        function addMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+        }
+
+        function addReportmarker(geocoder, address) {
+            console.log("this the address: " + address);
+            geocoder.geocode({
+                'address': address
+            }, function (results, status) {
+                if (status === 'OK') {
+                    var userLocation = results[0].geometry.location;
+                    var currentLocationMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        icon: yellowIcon,
+                        title: 'Your Location'
+                    });
+                    let category = document.querySelector("#category").value;
+                    let hour = document.querySelector("#hour").value;
+                    let minute = document.querySelector("#minute").value;
+                    let amPm = document.querySelector("#amPm").value;
+                    let detail = document.querySelector("#details").value;
+                    currentLocationMarker.addListener('click', function () {
+                        // Get and display report info in an info window
+                        var reportInfo =
+                            ` <h5>Report Info</h5>
+        <h6>Status: Unconfirmed</h6>
+       
+        <p class = "text">  Type: ${category} <br> ${detail}<br> Time: ${hour}: ${minute} ${amPm}<br></p>`; // Replace with actual report info
+                        var infoWindow = new google.maps.InfoWindow({
+                            content: reportInfo
+                        });
+                        infoWindow.open(map, currentLocationMarker);
+                    });
+
+                    map.setCenter(userLocation); // Centering the map
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+
+
+            });
+        }
+
+        function geocodeAddress(geocoder, address) {
+            geocoder.geocode({
+                'address': address
+            }, function (results, status) {
+                if (status === 'OK') {
+                    var userLocation = results[0].geometry.location;
+                    addMarker(userLocation);
+                    map.setCenter(userLocation); // Centering the map
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+
+
+        // map_tab.addEventListener('click', () => {
+        //     lowerHalf.classList.add('hidden');
+        //     map_container.classList.remove('hidden');
+        //     legend.classList.remove('hidden');
+        //     bookmarksForm.classList.add("hidden");
+        //     reportForm.classList.add('hidden');;
+        //     searchSection.classList.remove('hidden');
+
+        //     initMap();
+
+
+        // })
+
+        submitBtn.addEventListener('click', (e) => {
+
+            if (validateForm()) {
+                snackbar.labelText = "Report Incomplete";
+                snackbar.open();
+            } else {
+                setTimeout(function () {
+                    // Your code to execute after a 500ms delay
+                    confirmation.classList.remove('hidden');
+                    setTimeout(function () {
+                        // Your code to execute after a 500ms delay
+                        confirmation.classList.add('hidden');
+                        for (const radioButton of radioButtons) {
+                            if (radioButton.checked) {
+                                if (radioButton.value == "Yes") {
+                                    // The selected radio button is found
+                                    newMarker();
+                                    reportForm.classList.add('hidden');;
+                                    lowerHalf.classList.add('hidden');
+                                    map_container.classList.remove('hidden');
+                                    legend.classList.remove('hidden');
+                                    reportForm.classList.add('hidden');
+                                    searchSection.classList.remove('hidden');
+
+                                } else if (radioButton.value == "No") {
+                                    var Input = document.querySelector("#location").value;
+                                    console.log(Input);
+                                    if (Input) {
+                                        var geocoder = new google.maps.Geocoder();
+                                        addReportmarker(geocoder, Input);
+                                    } else {
+                                        alert(
+                                            "No address entered. Please enter a valid address."
+                                        );
+                                    }
+
+
+
+                                    reportForm.classList.add('hidden');;
+                                    lowerHalf.classList.add('hidden');
+                                    map_container.classList.remove('hidden');
+                                    legend.classList.remove('hidden');
+                                    reportForm.classList.add('hidden');
+                                    searchSection.classList.remove('hidden');
+                                }
+
+                            }
+
+
+                        }
+                    }, 1500);
+                }, 100);
+                reportForm.classList.add('hidden');;
+                lowerHalf.classList.add('hidden');
+                map_container.classList.add('hidden');
+                legend.classList.add('hidden');
+                reportForm.classList.add('hidden');
+                const radioButtons = document.getElementsByName('location-option');
+                let yes = 0;
+                initMap();
+                // Loop through the radio buttons to check if one of them is selected
+
+
+            }
+
+
+
+
+        });
+
+
+        searchButton.addEventListener('click', e => {
+            e.preventDefault(); // Prevent default form submission behavior
+
+            userInput = document.querySelector('#searchText').value;
+            if (userInput) {
+                var geocoder = new google.maps.Geocoder();
+                geocodeAddress(geocoder, userInput);
+            } else {
+                alert("No address entered. Please enter a valid address.");
+            }
+
+            // Geocode function to convert address to coordinates
+
+
+        })
+
+        search_t.addEventListener('click', e => {
+            reportForm.classList.add('hidden');;
+            lowerHalf.classList.add('hidden');
+            map_container.classList.remove('hidden');
+            legend.classList.remove('hidden');
+            reportForm.classList.add('hidden');
+            // searchSection.classList.remove('hidden');
+
+        })
+
+      
+    </script>
+</body>
 
 </html>
